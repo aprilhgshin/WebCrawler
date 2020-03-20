@@ -67,44 +67,7 @@ def mp_scrape_url_list(page_url_list, recursion):
     p.join()
     
     mp_scrape_url_list(url_list, recursion-1)
-    
-def no_mp_scrape_url(page_url_list, recursion):
-    '''
-    no_mp_scrape_url is identical to mp_scare_url_list except without the multiprocessing
-    param page_url_list: list of string urls
-    param recursion: int value for maximum recursion depth
-    return None
 
-    '''
-    
-    if (recursion < 0): # manually 
-        return
-    
-    if debug:
-        print("recursion ", recursion)
-    url_list = []
-    for url in page_url_list:
-        try:
-            page = requests.get(url)
-            tree = html.fromstring(page.content)
-            soup = BeautifulSoup(tostring(tree), 'html.parser')
-        except requests.exceptions.SSLError as e:
-            if debug:
-                print("error\n")
-            continue
-        print(url)
-        for tag in soup.find_all('a'):
-            link = tag.get('href')
-            if link is not None:
-                if (link[0:8] == "https://" or link[0:7] == "http://"):
-                    if link not in url_list:
-                        url_list.append(link)
-                        print(" ",link)
-
-
-    no_mp_scrape_url(url_list, recursion-1)
-
-    
 
                 
 if __name__ == '__main__':
@@ -112,12 +75,7 @@ if __name__ == '__main__':
     starting_url = sys.argv[1] # one argument required: e.g. "https://www.rescale.com"
     url_list = [starting_url]
     
-    start_time = time.time()
-    mp_scrape_url_list(url_list, 1) # Manually setting maximum recursion depth
-    end_time = time.time() - start_time
-    
+    mp_scrape_url_list(url_list, 2) # Manually setting maximum recursion depth i.e. number of levels of pages to scrape URLS
 
 
-    #if debug:
-    #    no_mp_scrape_url_list(starting_url)
 
