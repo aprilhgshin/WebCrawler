@@ -20,7 +20,7 @@ To successfully run the Web Crawler, make sure to have the following Python modu
  - Requests
  - Multiprocessing
  
- Otherwise, please run the following command on a Linux/Unix terminal:
+ Otherwise, please run the following command on a Linux/MacOS terminal:
  ```
  $pip install lxml
  $pip install beatifulsoup4
@@ -29,7 +29,7 @@ To successfully run the Web Crawler, make sure to have the following Python modu
  ```
  Note: If you use Python3, replace pip with pip3
  
- To run the Web Crawler, download crawler.py and simply run the following command on Linux/Unix terminal:
+ To run the Web Crawler, download crawler.py and simply run the following command on Linux/MacOS terminal:
  ```
  $python3 ./crawler.py <insert_starting_url>
  ```
