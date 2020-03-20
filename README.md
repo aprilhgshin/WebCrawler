@@ -10,8 +10,6 @@ This program accomplishes the following (derived from document):
  
  Additionally, the program fetches URLs in parallel to speed up the crawl.
  A stopping condition is placed to limit the number of levels of pages through which we will scrape URLs.
- 
- These URLs will be output
 
 ## Instructions
 To successfully run the Web Crawler, make sure to have the following Python modules installed:
