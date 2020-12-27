@@ -69,7 +69,7 @@ Using the helper method *scrape helper*, *mp_scrape_url_list* generates all urls
 Additionally, we may choose the number of nested page levels to recurse through (for testing purposes). This program will run until there are absolutely no urls on the webpages if this restriction is not set.
 
     
- ### test_crawler.py
+ ## test_crawler.py
  *test_crawler.py* is created for testing the web scraping with and without multiprocessing.
  It contains the method *no_mp*, which implements the same functionality as *mp_scrape_url_list* except without multiprocessing.
  It also contains a test to compare the total number of urls scraped yielded from the methods *mp_scrape_url_list* and *no_mp*.
