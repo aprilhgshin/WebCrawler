@@ -2,7 +2,7 @@
 
 ## Project Description
 
-This program accomplishes the following (derived from document):
+This program accomplishes the following:
  1. Fetch the HTML document at that URL
  2. Parse out URLs in that HTML document
  3. Log/print the URL visited along with all the URLs on the page
