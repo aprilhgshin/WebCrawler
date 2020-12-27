@@ -75,7 +75,7 @@ Additionally, we may choose the number of nested page levels to recurse through 
  It also contains a test to compare the total number of urls scraped yielded from the methods *mp_scrape_url_list* and *no_mp*.
  To run *test_crawler.py*, run the following command on a Linux/Unix terminal:
  ```
- $python3 ./test_crawler.py
+ $python3 test_crawler.py
  ```
  The test compares the total url count between web scraping urls with and without multiprocessing.
  If the test fails i.e. the counts are not identical, then an assertion error will be displayed. Otherwise, nothing will happen.
