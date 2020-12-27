@@ -38,7 +38,7 @@ To successfully run the Web Crawler, make sure to have the following Python modu
  ```
  Provide a url as the single argument, e.g. https://www.rescale.com
  
- #### Troubleshooting 
+ ### Troubleshooting 
  If you receive an error regarding threads/forks, please enter the following commands in your terminal: 
  ```
  $nano .bash_profile
