@@ -42,8 +42,14 @@ To successfully run the Web Crawler, make sure to have the following Python modu
  If you receive an error regarding threads/forks, please enter the following commands in your terminal: 
  ```
  $nano .bash_profile
+ ```
+ 
+ Write the following statement in the open file:
+ ```
  $export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
  ```
+ Save and exit the file. Run webcrawler.py.
+ 
  If the same error persists, when compiling and running webcrawler.py, also use the command: 
  ```
  $OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES python3 webcrawler.py
