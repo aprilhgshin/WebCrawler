@@ -34,12 +34,12 @@ To successfully run the Web Crawler, make sure to have the following Python modu
  Provide a url as the single argument, e.g. https://www.rescale.com
  
  #### Troubleshooting 
- if you receive a thread and fork error related to using Mac OS Sierra or newer OS versions, enter the following commands in your terminal: 
+ If you receive an error regarding threads/forks, please enter the following commands in your terminal: 
  ```
  $nano .bash_profile
  $export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
  ```
- If error persists, when compiling and running webcrawler.py, use the command: 
+ If the same error persists, when compiling and running webcrawler.py, also use the command: 
  ```
  $OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES python3 webcrawler.py
  ```
