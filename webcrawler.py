@@ -72,7 +72,7 @@ def scrape_helper(page_url_list, url_count, already_processed, nprocess, page_le
         return url_count
 
     url_list = []
-    total_count = [len(page_url_list)]
+    total_count = len(page_url_list)
 
     with mp.Pool(processes=nprocess) as p:
 
@@ -89,9 +89,9 @@ def scrape_helper(page_url_list, url_count, already_processed, nprocess, page_le
             result = crawl_result[0]
 
             # Keeping track of total count of url's
-            total_count.append(scrape_helper(result, url_count+len(result), already_processed, nprocess, page_level-1))
+            total_count += (scrape_helper(result, url_count+len(result), already_processed, nprocess, page_level-1))
 
-    return sum(total_count)
+    return total_count
 
 
 if __name__ == '__main__':
