@@ -1,73 +1,79 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Mar 19 20:04:42 2020
+from webcrawler import crawl, mp_scrape_url_list
+import unittest
 
-@author: april
-"""
-from crawler import crawl, mp_scrape_url_list
-from lxml import html
-from lxml.html.soupparser import fromstring
-from lxml.etree import tostring
-import requests
-from bs4 import BeautifulSoup
-from multiprocessing import Pool
-import time
-import sys
+class TestMPWebscrape(unittest.TestCase):
+        
+    def no_mp_helper(self, page_url_list, url_count, already_processed, nprocess, page_level):
+            '''
+        The method no_mp_helper generates all urls scraped from a given list of urls without using multiprocessing. 
+        We call the crawl function on the given list of urls to generate a list of urls linked in each given url. 
+        As we ultimately begin with one starting url and branch out to many urls (depending on how many urls are linked on the starting url), 
+            we have a tree structure of urls. Therefore, we choose to use recursion to generate urls linked in each given url.
+        
+        param page_url_list: list of string urls
+        param url_count: int value for count of total urls scraped from web pages
+        param already_processed: list of urls (strings) that's already been scraped
+        param nprocess: number of processes
+        param page_level: number of nested page levels to recurse through (for testing purposes). This program will run until there are absolutely no urls on the webpages if this restriction is not set.
+        
+        return total_count: total number of urls from entire nested web scraping
+        '''
+        if (len(page_url_list) == 0 or page_level == 0):  
+            return url_count
 
-def no_mp_scrape_url(page_url_list, recursion):
-    '''
-    no_mp_scrape_url is identical to mp_scare_url_list except without the multiprocessing
-    param page_url_list: list of string urls
-    param recursion: int value for maximum recursion depth
-    return None
+        url_list = []
+        total_count = [len(page_url_list)]
 
-    '''
-    
-    if (recursion < 0): # manually 
-        return
+        for url in page_url_list:
+            if (url in already_processed):
+                continue
 
-    url_list = []
-    for url in page_url_list:
-        try:
-            page = requests.get(url)
-            tree = html.fromstring(page.content)
-            soup = BeautifulSoup(tostring(tree), 'html.parser')
-        except requests.exceptions.SSLError as e:
-            continue
-        print(url)
-        for tag in soup.find_all('a'):
-            link = tag.get('href')
-            if link is not None:
-                if (link[0:8] == "https://" or link[0:7] == "http://"):
-                    if link not in url_list:
-                        url_list.append(link)
-                        print(" ",link)
+            #Adding url to list of processed url's. 
+            already_processed.append(url)
+
+            # Returns list of urls scraped from current url
+            result = crawl(url)
+
+            # Keeping track of total count of url's
+            total_count.append(self.no_mp_helper(result, url_count+len(result), already_processed, nprocess, page_level-1))
+
+        return sum(total_count)
+
+    def no_mp(self, starter_url, nprocess, page_level):
+            '''
+        The method no_mp is identical to mp_scrape_url_list with the exception that no multiprocessing is used to generate all urls scraped from a given list of urls. 
+        Details provided under method no_mp_helper.
+
+        param starter_url: starting string url
+        param nprocess: number of processes to use for parallel processing
+        param page_level: number of nested page levels to recurse through (for testing purposes). This program will run until there are absolutely no urls on the webpages if this restriction is not set.
+        return total number of urls from entire nested web scraping
+        '''
+        return self.no_mp_helper([starter_url], 0, [], nprocess, page_level)
 
 
-    no_mp_scrape_url(url_list, recursion-1)
-    
-def test(url_list, recursion):
-    start_time = time.time()
-    mp_scrape_url_list(url_list, recursion) # Manually setting maximum recursion depth
-    end_time = time.time() - start_time
+    def test_no_mp(self, starter_url, nprocess, page_level):
+        '''
+        Compares the total url count between web scraping urls with and without multiprocessing i.e. methods mp_scrape_url_list and no_mp 
+        If the test fails, an assertion error will be displayed. Otherwise, none.
 
-    # To compare the runtime of program with multiprocessing and without multiprocessing
-    start_time_noMP = time.time()
-    no_mp_scrape_url(url_list, 1)
-    end_time_noMP = time.time() - start_time_noMP
-    
-    if (end_time - end_time_noMP) > 0:
-        print("Multiprocessing error")
-    elif (end_time - end_time_noMP) < 0:
-        factor = end_time/end_time_noMP
-        print("Success. Runtime is decreased by a factor of ", factor, "for ", recursion, "level of pages")
-    
-    
+        param starter_url: starting string url
+        param nprocess: number of processes to use for parallel processing
+        param page_level: number of nested page levels to recurse through (for testing purposes). This program will run until there are absolutely no urls on the webpages if this restriction is not set.
+        '''
+        no_mp_count = self.no_mp(starter_url, nprocess, page_level)
+        mp_count = mp_scrape_url_list(starter_url, nprocess, page_level)
+
+        self.assertEqual(no_mp_count, mp_count)
+
+
 if __name__ == '__main__':
-    starting_url = sys.argv[1] # one argument required: e.g. "https://www.rescale.com"
-    url_list = [starting_url]
-    recursion = int(sys.argv[2])
+    testing = TestMPWebscrape()
+    starting_url = "https://www.rescale.com/"#sys.argv[1] # one argument required: e.g. "https://www.rescale.com"
     
-    test(url_list, recursion)
-   
+    '''
+    Method test_no_mp arguments: starter_url, nprocess, page_level
+    For testing purposes, I set page_level to 2, which signifies the number of nested page levels to recurse through. 
+    This program will run until there are absolutely no urls on the webpages if the page_level restriction is not set.
+    '''
+    url_count = testing.test_no_mp(starting_url, 4, 2) 
