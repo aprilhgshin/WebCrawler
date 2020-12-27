@@ -33,6 +33,7 @@ def crawl(starting_url):
         link = tag.get('href')
         if link is not None:
             if (link[0:8] == "https://" or link[0:7] == "http://"):
+                # To make sure we don't have duplicate urls
                 if link not in url_list:
                     url_list.append(link)
                     print(" ",link)
