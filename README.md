@@ -73,7 +73,7 @@ Additionally, we may choose the number of nested page levels to recurse through 
  *test_crawler.py* is created for testing the web scraping with and without multiprocessing.
  It contains the method no_mp, which implements the same functionality as mp_scrape_url_list except without multiprocessing.
  It also contains a test to compare the total number of urls scraped yielded from the methods mp_scrape_url_list and no_mp.
- To run test_crawler.py, download test_crawler.py and run the following command on a Linux/Unix terminal:
+ To run test_crawler.py, run the following command on a Linux/Unix terminal:
  ```
  $python3 ./test_crawler.py
  ```
