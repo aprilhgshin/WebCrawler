@@ -65,15 +65,15 @@ To successfully run the Web Crawler, make sure to have the following Python modu
  
  #### *mp_scrape_url_list*
   
-Using the helper method scrape helper, *mp_scrape_url_list* generates all urls scraped from a given list of urls. We call the crawl function on the given list of urls to generate a list of urls linked in each given url. As we ultimately begin with one starting url and branch out to many urls (depending on how many urls are linked on the starting url), we have a tree structure of urls. Therefore, we choose to use recursion to generate urls linked in each given url through multiple levels of pages. We generate the list of linked urls for each url in parallel through multiprocessing using Python's Pool class of Multiprocessing module. The Pool class allows us to run a function across multiple input values in parallel. 
+Using the helper method *scrape helper*, *mp_scrape_url_list* generates all urls scraped from a given list of urls. We call the crawl function on the given list of urls to generate a list of urls linked in each given url. As we ultimately begin with one starting url and branch out to many urls (depending on how many urls are linked on the starting url), we have a tree structure of urls. Therefore, we choose to use recursion to generate urls linked in each given url through multiple levels of pages. We generate the list of linked urls for each url in parallel through multiprocessing using Python's Pool class of Multiprocessing module. The Pool class allows us to run a function across multiple input values in parallel. 
 Additionally, we may choose the number of nested page levels to recurse through (for testing purposes). This program will run until there are absolutely no urls on the webpages if this restriction is not set.
 
     
  ### test_crawler.py
  *test_crawler.py* is created for testing the web scraping with and without multiprocessing.
- It contains the method no_mp, which implements the same functionality as mp_scrape_url_list except without multiprocessing.
- It also contains a test to compare the total number of urls scraped yielded from the methods mp_scrape_url_list and no_mp.
- To run test_crawler.py, run the following command on a Linux/Unix terminal:
+ It contains the method *no_mp*, which implements the same functionality as *mp_scrape_url_list* except without multiprocessing.
+ It also contains a test to compare the total number of urls scraped yielded from the methods *mp_scrape_url_list* and *no_mp*.
+ To run *test_crawler.py*, run the following command on a Linux/Unix terminal:
  ```
  $python3 ./test_crawler.py
  ```
