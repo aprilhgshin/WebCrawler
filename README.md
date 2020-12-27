@@ -27,7 +27,12 @@ To successfully run the Web Crawler, make sure to have the following Python modu
  ```
  Note: pip3 is for those with Python of version 3 and up.
  
- To run the Web Crawler, download webcrawler.py and simply run the following command on Linux/MacOS terminal:
+ To use the web crawler, first, clone the WebCrawler repository with the the following command on Linux/MacOS terminal:
+ ```
+ $ git clone https://github.com/aprilhgshin/WebCrawler.git
+ ```
+ 
+ To run the webcrawler, use the following commands on terminal:
  ```
  $python3 webcrawler.py <insert_starting_url>
  ```
